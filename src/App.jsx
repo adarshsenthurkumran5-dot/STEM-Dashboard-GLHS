@@ -451,9 +451,9 @@ const WIZARD_QUESTIONS = [
   },
   {
     id: 'q3',
-    text: 'Does your project use microorganisms, recombinant DNA/RNA, human or animal tissue, blood, body fluids, or any hazardous biological, chemical, or radioactive materials?',
-    required: ['Form 3', 'Form 6A', 'Form 6B'],
-    note: 'Select Yes if any of these apply — you may not need all three',
+    text: 'Does your project use microorganisms, recombinant DNA/RNA, or any hazardous biological, chemical, or radioactive materials?',
+    required: ['Form 3', 'Form 6A'],
+    note: 'Select Yes if any of these apply — you may not need both forms',
   },
   {
     id: 'q4',
@@ -466,6 +466,24 @@ const WIZARD_QUESTIONS = [
     text: 'Is this project a continuation of research you submitted to an ISEF-affiliated fair in a previous competition year?',
     required: ['Form 1B'],
     note: 'New data and procedures from this year must be clearly documented',
+  },
+  {
+    id: 'q6',
+    text: 'Does your project involve the collection, use, or analysis of blood, tissue, primary cell cultures, or body fluids from humans or vertebrate animals — including commercially purchased or archived biological samples?',
+    required: ['Form 6B'],
+    note: 'Applies even if the samples are de-identified or obtained from a repository',
+  },
+  {
+    id: 'q7',
+    text: 'Does your project use any electrical components, open flames, high-powered lasers (>5 mW), pressurized systems, or other physical or mechanical hazards not already covered above?',
+    required: ['Form 3'],
+    note: 'Includes robotics, circuits, combustion engines, and pressure vessels',
+  },
+  {
+    id: 'q8',
+    text: 'Will your project be physically displayed at an ISEF-affiliated science fair or competition (backboard, models, or working devices on the exhibit floor)?',
+    required: ['Form 7'],
+    note: 'Required at the display stage — covers backboard size limits, electrical rules, and prohibited items',
   },
 ]
 
@@ -1305,9 +1323,9 @@ function FormsTab() {
 
   const handleDownload = (form) => {
     const content = [
-      `${form.tag} — ${form.title}`,
-      `Society for Science · ISEF 2025–2026`,
-      '━'.repeat(48),
+      `${form.tag} -- ${form.title}`,
+      `Society for Science - ISEF 2025-2026`,
+      '-'.repeat(48),
       '',
       'DESCRIPTION',
       form.what,
@@ -1315,11 +1333,18 @@ function FormsTab() {
       'HOW TO COMPLETE',
       ...form.how.map((s, i) => `  ${i + 1}. ${s}`),
       '',
-      '━'.repeat(48),
+      '-'.repeat(48),
       'Official forms available at: societyforscience.org/isef',
     ].join('\n')
-    downloadText(`ISEF_${form.tag.replace(/\s+/g, '_')}.txt`, content)
-    setToast({ message: `${form.tag} downloaded.`, type: 'success' })
+    const blob = createPdfBlob(content)
+    const url  = URL.createObjectURL(blob)
+    const a    = Object.assign(document.createElement('a'), {
+      href: url,
+      download: `ISEF_${form.tag.replace(/[\s/]+/g, '_')}.pdf`,
+    })
+    document.body.appendChild(a); a.click(); document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+    setToast({ message: `${form.tag} downloaded as PDF.`, type: 'success' })
   }
 
   return (
@@ -1336,7 +1361,7 @@ function FormsTab() {
         <div className="flex items-start justify-between mb-4">
           <div>
             <h3 className="text-sm font-semibold text-black">Form Requirement Wizard</h3>
-            <p className="text-[11px] text-gray-400 mt-0.5">5 questions · ~1 minute</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">8 questions · ~2 minutes</p>
           </div>
           {wizardStarted && <button onClick={reset} className="text-xs text-gray-400 hover:text-black transition">Start over</button>}
         </div>
