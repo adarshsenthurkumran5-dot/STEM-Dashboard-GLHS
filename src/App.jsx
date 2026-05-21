@@ -470,11 +470,11 @@ const WIZARD_QUESTIONS = [
 ]
 
 const INITIAL_DOCUMENTS = [
-  { id: 1, student: 'Jacob Michael', type: 'NCSEF Parent Release',                file: 'JacobMichaelNCSEFParentReleaseForm.pdf',              size: '142 KB', status: 'Pending Review', feedback: null, date: 'May 19, 2026', studentId: 'u1' },
-  { id: 2, student: 'Jacob Michael', type: 'Form 1 — Adult Sponsor Checklist',    file: '1-Checklist-for-Adult-Sponsor-stemrcform1.pdf',         size: '98 KB',  status: 'Pending Review', feedback: null, date: 'May 19, 2026', studentId: 'u1' },
-  { id: 3, student: 'Jacob Michael', type: 'Form 1A — Student Checklist',         file: '1A-Student-Checklist-Research-Plan-Instructions1.pdf', size: '189 KB', status: 'Pending Review', feedback: null, date: 'May 19, 2026', studentId: 'u1' },
-  { id: 4, student: 'Jacob Michael', type: 'Form 4 — Informed Consent',           file: '4-Sample-Informed-Consent1.pdf',                       size: '203 KB', status: 'Pending Review', feedback: null, date: 'May 19, 2026', studentId: 'u1' },
-  { id: 5, student: 'Jacob Michael', type: 'Form 4 — Human Participants',         file: '4-Human-Participants3.pdf',                            size: '156 KB', status: 'Pending Review', feedback: null, date: 'May 19, 2026', studentId: 'u1' },
+  { id: 1, student: 'Jacob Michael', type: 'NCSEF Parent Release',             file: 'JacobMichaelNCSEFParentReleaseForm.pdf',              pdfSrc: '/pdfs/JacobMichaelNCSEFParentReleaseForm.pdf',              size: '106 KB', status: 'Pending Review', feedback: null, date: 'May 19, 2026', studentId: 'u1' },
+  { id: 2, student: 'Jacob Michael', type: 'Form 1 — Adult Sponsor Checklist', file: '1-Checklist-for-Adult-Sponsor-stemrcform1.pdf',         pdfSrc: '/pdfs/1-Checklist-for-Adult-Sponsor-stemrcform1.pdf',         size: '402 KB', status: 'Pending Review', feedback: null, date: 'May 19, 2026', studentId: 'u1' },
+  { id: 3, student: 'Jacob Michael', type: 'Form 1A — Student Checklist',      file: '1A-Student-Checklist-Research-Plan-Instructions1.pdf', pdfSrc: '/pdfs/1A-Student-Checklist-Research-Plan-Instructions1.pdf', size: '151 KB', status: 'Pending Review', feedback: null, date: 'May 19, 2026', studentId: 'u1' },
+  { id: 4, student: 'Jacob Michael', type: 'Form 4 — Informed Consent',        file: '4-Sample-Informed-Consent1.pdf',                       pdfSrc: '/pdfs/4-Sample-Informed-Consent1.pdf',                       size: '195 KB', status: 'Pending Review', feedback: null, date: 'May 19, 2026', studentId: 'u1' },
+  { id: 5, student: 'Jacob Michael', type: 'Form 4 — Human Participants',      file: '4-Human-Participants3.pdf',                            pdfSrc: '/pdfs/4-Human-Participants3.pdf',                            size: '307 KB', status: 'Pending Review', feedback: null, date: 'May 19, 2026', studentId: 'u1' },
 ]
 
 /* ================================================================
@@ -757,28 +757,27 @@ function DocViewerModal({ doc, onClose }) {
 
   useEffect(() => {
     let url
-    if (doc.fileObj) {
+    let needRevoke = false
+    if (doc.pdfSrc) {
+      url = doc.pdfSrc          // public static asset — no objectURL needed
+    } else if (doc.fileObj) {
       url = URL.createObjectURL(doc.fileObj)
+      needRevoke = true
     } else if (content) {
       url = URL.createObjectURL(createPdfBlob(content))
+      needRevoke = true
     }
     if (url) setPdfUrl(url)
-    return () => { if (url) URL.revokeObjectURL(url) }
+    return () => { if (needRevoke && url) URL.revokeObjectURL(url) }
   }, [])  // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDownload = () => {
-    if (pdfUrl) {
-      const a = Object.assign(document.createElement('a'), { href: pdfUrl, download: doc.file })
-      document.body.appendChild(a); a.click(); document.body.removeChild(a)
-    } else if (doc.fileObj) {
-      const url = URL.createObjectURL(doc.fileObj)
-      const a = Object.assign(document.createElement('a'), { href: url, download: doc.file })
-      document.body.appendChild(a); a.click(); document.body.removeChild(a)
-      URL.revokeObjectURL(url)
-    }
+    if (!pdfUrl) return
+    const a = Object.assign(document.createElement('a'), { href: pdfUrl, download: doc.file })
+    document.body.appendChild(a); a.click(); document.body.removeChild(a)
   }
 
-  const canPreview = !!(doc.fileObj || content)
+  const canPreview = !!(doc.pdfSrc || doc.fileObj || content)
 
   return (
     <div
