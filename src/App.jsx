@@ -20,70 +20,70 @@ const ACTIVE_CODE = 'RESEARCH2026'
 const MEETING_DATES = ['Apr 2, 2026', 'Apr 16, 2026', 'Apr 30, 2026', 'May 14, 2026', 'May 21, 2026']
 
 const ROSTER_STUDENTS = [
-  { name: 'Jacob Michael',   email: 'student@stemrc.org' },
-  { name: 'Marcus Johnson',  email: 'marcusj@stemrc.org' },
-  { name: 'Priya Patel',     email: 'priyap@stemrc.org' },
-  { name: 'Elena Rodriguez', email: 'elenar@stemrc.org' },
-  { name: 'Tyler Kim',       email: 'tylerk@stemrc.org' },
+  { name: 'Jacob Michael', email: 'student@stemrc.org' },
+  { name: 'Student 1',     email: 'student1@stemrc.org' },
+  { name: 'Student 2',     email: 'student2@stemrc.org' },
+  { name: 'Student 3',     email: 'student3@stemrc.org' },
+  { name: 'Student 4',     email: 'student4@stemrc.org' },
 ]
 
 const INITIAL_ATTENDANCE = [
-  { id: 1,  name: 'Jacob Michael',   date: 'Apr 2, 2026',  code: 'SPRING01',   time: '3:55 PM' },
-  { id: 2,  name: 'Marcus Johnson',  date: 'Apr 2, 2026',  code: 'SPRING01',   time: '3:42 PM' },
-  { id: 3,  name: 'Priya Patel',     date: 'Apr 2, 2026',  code: 'SPRING01',   time: '3:45 PM' },
-  { id: 4,  name: 'Tyler Kim',       date: 'Apr 2, 2026',  code: 'SPRING01',   time: '3:51 PM' },
-  { id: 5,  name: 'Jacob Michael',   date: 'Apr 16, 2026', code: 'SPRING02',   time: '4:01 PM' },
-  { id: 6,  name: 'Marcus Johnson',  date: 'Apr 16, 2026', code: 'SPRING02',   time: '4:04 PM' },
-  { id: 7,  name: 'Priya Patel',     date: 'Apr 16, 2026', code: 'SPRING02',   time: '4:08 PM' },
-  { id: 8,  name: 'Elena Rodriguez', date: 'Apr 16, 2026', code: 'SPRING02',   time: '4:12 PM' },
-  { id: 9,  name: 'Marcus Johnson',  date: 'Apr 30, 2026', code: 'SPRING03',   time: '3:58 PM' },
-  { id: 10, name: 'Elena Rodriguez', date: 'Apr 30, 2026', code: 'SPRING03',   time: '4:00 PM' },
-  { id: 11, name: 'Priya Patel',     date: 'Apr 30, 2026', code: 'SPRING03',   time: '4:06 PM' },
-  { id: 12, name: 'Jacob Michael',   date: 'May 14, 2026', code: 'STEMFAIR25', time: '3:58 PM' },
-  { id: 13, name: 'Marcus Johnson',  date: 'May 14, 2026', code: 'STEMFAIR25', time: '4:02 PM' },
-  { id: 14, name: 'Priya Patel',     date: 'May 14, 2026', code: 'STEMFAIR25', time: '4:07 PM' },
-  { id: 15, name: 'Elena Rodriguez', date: 'May 14, 2026', code: 'STEMFAIR25', time: '4:15 PM' },
-  { id: 16, name: 'Tyler Kim',       date: 'May 14, 2026', code: 'STEMFAIR25', time: '4:22 PM' },
+  { id: 1,  name: 'Jacob Michael', date: 'Apr 2, 2026',  code: 'SPRING01',   time: '3:55 PM' },
+  { id: 2,  name: 'Student 1',     date: 'Apr 2, 2026',  code: 'SPRING01',   time: '3:42 PM' },
+  { id: 3,  name: 'Student 2',     date: 'Apr 2, 2026',  code: 'SPRING01',   time: '3:45 PM' },
+  { id: 4,  name: 'Student 4',     date: 'Apr 2, 2026',  code: 'SPRING01',   time: '3:51 PM' },
+  { id: 5,  name: 'Jacob Michael', date: 'Apr 16, 2026', code: 'SPRING02',   time: '4:01 PM' },
+  { id: 6,  name: 'Student 1',     date: 'Apr 16, 2026', code: 'SPRING02',   time: '4:04 PM' },
+  { id: 7,  name: 'Student 2',     date: 'Apr 16, 2026', code: 'SPRING02',   time: '4:08 PM' },
+  { id: 8,  name: 'Student 3',     date: 'Apr 16, 2026', code: 'SPRING02',   time: '4:12 PM' },
+  { id: 9,  name: 'Student 1',     date: 'Apr 30, 2026', code: 'SPRING03',   time: '3:58 PM' },
+  { id: 10, name: 'Student 3',     date: 'Apr 30, 2026', code: 'SPRING03',   time: '4:00 PM' },
+  { id: 11, name: 'Student 2',     date: 'Apr 30, 2026', code: 'SPRING03',   time: '4:06 PM' },
+  { id: 12, name: 'Jacob Michael', date: 'May 14, 2026', code: 'STEMFAIR25', time: '3:58 PM' },
+  { id: 13, name: 'Student 1',     date: 'May 14, 2026', code: 'STEMFAIR25', time: '4:02 PM' },
+  { id: 14, name: 'Student 2',     date: 'May 14, 2026', code: 'STEMFAIR25', time: '4:07 PM' },
+  { id: 15, name: 'Student 3',     date: 'May 14, 2026', code: 'STEMFAIR25', time: '4:15 PM' },
+  { id: 16, name: 'Student 4',     date: 'May 14, 2026', code: 'STEMFAIR25', time: '4:22 PM' },
 ]
 
 const INITIAL_SHIFTS = [
   {
     id: 1, date: 'Wed, May 28, 2026', time: '3:30 – 5:00 PM', total: 8, remaining: 5, signedUp: false,
     roster: [
-      { name: 'Marcus Johnson',  email: 'marcusj@stemrc.org' },
-      { name: 'Priya Patel',     email: 'priyap@stemrc.org' },
-      { name: 'Elena Rodriguez', email: 'elenar@stemrc.org' },
+      { name: 'Student 1', email: 'student1@stemrc.org' },
+      { name: 'Student 2', email: 'student2@stemrc.org' },
+      { name: 'Student 3', email: 'student3@stemrc.org' },
     ],
   },
   {
     id: 2, date: 'Wed, Jun 4, 2026', time: '3:30 – 5:00 PM', total: 8, remaining: 2, signedUp: false,
     roster: [
-      { name: 'Tyler Kim',       email: 'tylerk@stemrc.org' },
-      { name: 'Marcus Johnson',  email: 'marcusj@stemrc.org' },
-      { name: 'Priya Patel',     email: 'priyap@stemrc.org' },
-      { name: 'Elena Rodriguez', email: 'elenar@stemrc.org' },
-      { name: 'Sam Nguyen',      email: 'samn@stemrc.org' },
-      { name: 'Aisha Brooks',    email: 'aisab@stemrc.org' },
+      { name: 'Student 4', email: 'student4@stemrc.org' },
+      { name: 'Student 1', email: 'student1@stemrc.org' },
+      { name: 'Student 2', email: 'student2@stemrc.org' },
+      { name: 'Student 3', email: 'student3@stemrc.org' },
+      { name: 'Student 5', email: 'student5@stemrc.org' },
+      { name: 'Student 6', email: 'student6@stemrc.org' },
     ],
   },
   {
     id: 3, date: 'Wed, Jun 11, 2026', time: '3:30 – 5:00 PM', total: 8, remaining: 0, signedUp: false,
     roster: [
-      { name: 'Jacob Michael',   email: 'student@stemrc.org' },
-      { name: 'Marcus Johnson',  email: 'marcusj@stemrc.org' },
-      { name: 'Priya Patel',     email: 'priyap@stemrc.org' },
-      { name: 'Elena Rodriguez', email: 'elenar@stemrc.org' },
-      { name: 'Tyler Kim',       email: 'tylerk@stemrc.org' },
-      { name: 'Sam Nguyen',      email: 'samn@stemrc.org' },
-      { name: 'Aisha Brooks',    email: 'aisab@stemrc.org' },
-      { name: 'Devon Park',      email: 'devonp@stemrc.org' },
+      { name: 'Jacob Michael', email: 'student@stemrc.org' },
+      { name: 'Student 1',     email: 'student1@stemrc.org' },
+      { name: 'Student 2',     email: 'student2@stemrc.org' },
+      { name: 'Student 3',     email: 'student3@stemrc.org' },
+      { name: 'Student 4',     email: 'student4@stemrc.org' },
+      { name: 'Student 5',     email: 'student5@stemrc.org' },
+      { name: 'Student 6',     email: 'student6@stemrc.org' },
+      { name: 'Student 7',     email: 'student7@stemrc.org' },
     ],
   },
   {
     id: 4, date: 'Wed, Jun 18, 2026', time: '3:30 – 5:00 PM', total: 8, remaining: 6, signedUp: false,
     roster: [
-      { name: 'Marcus Johnson',  email: 'marcusj@stemrc.org' },
-      { name: 'Elena Rodriguez', email: 'elenar@stemrc.org' },
+      { name: 'Student 1', email: 'student1@stemrc.org' },
+      { name: 'Student 3', email: 'student3@stemrc.org' },
     ],
   },
   {
@@ -109,7 +109,7 @@ const INITIAL_TICKETS = [
     date: 'May 20, 2026', time: '10:15 AM',
   },
   {
-    id: 3, studentName: 'Marcus Johnson', studentId: 'u3',
+    id: 3, studentName: 'Student 1', studentId: 'u3',
     subject: 'Switching project category — still possible?',
     message: "I originally registered under Behavioral and Social Sciences but my project has evolved toward Computational Biology. Is it too late to switch categories, and would it affect my existing form approvals?",
     status: 'Unanswered', reply: null,
@@ -651,6 +651,22 @@ function Modal({ title, onClose, children, wide = false }) {
 
 function DocViewerModal({ doc, onClose }) {
   const content = MOCK_DOC_PREVIEWS[doc.file]
+
+  const handleDownload = () => {
+    if (doc.fileObj) {
+      const url = URL.createObjectURL(doc.fileObj)
+      const a = Object.assign(document.createElement('a'), { href: url, download: doc.file })
+      document.body.appendChild(a); a.click(); document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    } else {
+      const blob = new Blob([content ?? `[Preview not available for ${doc.file}]`], { type: 'text/plain;charset=utf-8' })
+      const url  = URL.createObjectURL(blob)
+      const a    = Object.assign(document.createElement('a'), { href: url, download: doc.file })
+      document.body.appendChild(a); a.click(); document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    }
+  }
+
   return (
     <Modal title={doc.file} onClose={onClose} wide>
       <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-100">
@@ -662,7 +678,7 @@ function DocViewerModal({ doc, onClose }) {
           <p className="text-xs text-gray-400">{doc.date} · {doc.size}</p>
         </div>
         <button
-          onClick={() => downloadText(doc.file.replace('.pdf', '.txt'), content ?? `[Preview not available for ${doc.file}]`)}
+          onClick={handleDownload}
           className="ml-auto flex items-center gap-1.5 px-3 py-1.5 bg-black text-white rounded-xl text-xs font-semibold hover:bg-gray-800 transition"
         >
           {Ico.download('w-3.5 h-3.5')} Download
@@ -784,7 +800,7 @@ function Sidebar({ activeTab, setActiveTab, user, activeRole, onLogout }) {
     { id: 'mentor',     label: 'Mentor Sign-Up', iconKey: 'mentor'     },
     { id: 'forms',      label: 'ISEF Forms',     iconKey: 'forms'      },
     { id: 'research',   label: 'Research Hub',   iconKey: 'research'   },
-    { id: 'support',    label: 'Support',         iconKey: 'support'    },
+    { id: 'support',    label: 'Questions',       iconKey: 'support'    },
     ...(activeRole === 'admin' ? [{ id: 'roster', label: 'Club Roster', iconKey: 'roster' }] : []),
   ]
 
@@ -980,6 +996,20 @@ function MentorTab({ activeRole, user }) {
     setToast({ message: "You're signed up! See you there.", type: 'success' })
   }
 
+  const removeFromRoster = (shiftId, memberEmail) => {
+    setShifts(prev => prev.map(s => {
+      if (s.id !== shiftId) return s
+      const wasSelf = memberEmail === user.email
+      return {
+        ...s,
+        remaining: Math.min(s.remaining + 1, s.total),
+        signedUp: wasSelf ? false : s.signedUp,
+        roster: s.roster.filter(r => r.email !== memberEmail),
+      }
+    }))
+    setToast({ message: 'Member removed from shift.', type: 'info' })
+  }
+
   return (
     <div className="max-w-3xl animate-fade-in">
       {toast && <Toast {...toast} onClose={() => setToast(null)} />}
@@ -996,7 +1026,7 @@ function MentorTab({ activeRole, user }) {
         <div>
           <p className="text-sm font-semibold text-black">Mills Park Middle School — Science Lab, Rm 214</p>
           <p className="text-xs text-gray-500 mt-0.5">1100 Mills Park Dr, Cary, NC 27519</p>
-          <p className="text-xs text-gray-400 mt-1">Contact: Ms. A. Torres · <span className="font-mono">atorres@wcpss.net</span></p>
+          <p className="text-xs text-gray-400 mt-1">Contact: Aticia Mormando · <span className="font-mono">amormando@wcpss.net</span></p>
         </div>
       </div>
 
@@ -1073,7 +1103,12 @@ function MentorTab({ activeRole, user }) {
                               {r.name.charAt(0)}
                             </div>
                             <span className="text-sm font-medium text-black">{r.name}</span>
-                            <span className="text-xs text-gray-400 font-mono">{r.email}</span>
+                            <span className="text-xs text-gray-400 font-mono flex-1">{r.email}</span>
+                            <button
+                              onClick={() => removeFromRoster(shift.id, r.email)}
+                              className="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition flex-shrink-0">
+                              Remove
+                            </button>
                           </div>
                         ))}
                       </div>
@@ -1302,7 +1337,7 @@ function FormsTab() {
    TAB 4 — RESEARCH HUB
    ================================================================ */
 
-function ResearchTab({ activeRole, documents, setDocuments }) {
+function ResearchTab({ activeRole, user, documents, setDocuments }) {
   const [dragging, setDragging]     = useState(false)
   const [docType, setDocType]       = useState('Form 1A — Student Checklist')
   const [denyDocId, setDenyDocId]   = useState(null)
@@ -1311,15 +1346,16 @@ function ResearchTab({ activeRole, documents, setDocuments }) {
   const [toast, setToast]           = useState(null)
   const fileRef                     = useRef(null)
 
-  const myDocs = documents.filter(d => d.studentId === 'u1')
+  const myDocs = documents.filter(d => d.studentId === user.id)
 
   const addDoc = (file) => {
     setDocuments(prev => [{
-      id: Date.now(), student: 'Jacob Michael', type: docType, file: file.name,
+      id: Date.now(), student: user.name, type: docType, file: file.name,
+      fileObj: file,
       size: file.size > 1024 * 1024 ? `${(file.size / (1024 * 1024)).toFixed(1)} MB` : `${Math.round(file.size / 1024)} KB`,
       status: 'Pending Review', feedback: null,
       date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-      studentId: 'u1',
+      studentId: user.id,
     }, ...prev])
     setToast({ message: `${file.name} uploaded — pending review.`, type: 'success' })
   }
@@ -1479,7 +1515,7 @@ function SupportTab({ tickets, setTickets, user, activeRole }) {
   const myTickets    = tickets.filter(t => t.studentId === user.id)
   const allTickets   = [...tickets].sort((a, b) => b.id - a.id)
 
-  const submitTicket = (e) => {
+  const submitQuestion = (e) => {
     e.preventDefault()
     if (!subject.trim() || !message.trim()) return
     setTickets(prev => [{
@@ -1489,7 +1525,7 @@ function SupportTab({ tickets, setTickets, user, activeRole }) {
       date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
       time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
     }, ...prev])
-    setToast({ message: 'Ticket submitted — we\'ll respond shortly.', type: 'success' })
+    setToast({ message: "Question submitted — we'll respond shortly.", type: 'success' })
     setSubject(''); setMessage('')
   }
 
@@ -1505,9 +1541,9 @@ function SupportTab({ tickets, setTickets, user, activeRole }) {
       {toast && <Toast {...toast} onClose={() => setToast(null)} />}
 
       <div className="mb-7">
-        <h2 className="text-2xl font-bold text-black">Support</h2>
+        <h2 className="text-2xl font-bold text-black">Questions</h2>
         <p className="text-sm text-gray-500 mt-1">
-          {activeRole === 'admin' ? 'Student support inbox — reply to open tickets' : 'Ask a question or get help from your advisor'}
+          {activeRole === 'admin' ? 'Student questions inbox — reply to open questions' : 'Ask a question or get help from your advisor'}
         </p>
       </div>
 
@@ -1516,7 +1552,7 @@ function SupportTab({ tickets, setTickets, user, activeRole }) {
         <>
           <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-5">
             <h3 className="text-sm font-semibold text-black mb-4">Submit a Question</h3>
-            <form onSubmit={submitTicket} className="space-y-4">
+            <form onSubmit={submitQuestion} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Subject</label>
                 <input type="text" value={subject} onChange={e => setSubject(e.target.value)} placeholder="e.g. Question about Form 1A deadline"
@@ -1530,18 +1566,18 @@ function SupportTab({ tickets, setTickets, user, activeRole }) {
               </div>
               <button type="submit"
                 className="w-full bg-black text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-gray-800 transition">
-                Submit Ticket
+                Submit Question
               </button>
             </form>
           </div>
 
           <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-100">
-              <h3 className="text-sm font-semibold text-black">My Tickets</h3>
-              <p className="text-[11px] text-gray-400 mt-0.5">{myTickets.length} ticket{myTickets.length !== 1 ? 's' : ''}</p>
+              <h3 className="text-sm font-semibold text-black">My Questions</h3>
+              <p className="text-[11px] text-gray-400 mt-0.5">{myTickets.length} question{myTickets.length !== 1 ? 's' : ''}</p>
             </div>
             {myTickets.length === 0 ? (
-              <div className="py-12 text-center text-sm text-gray-400">No tickets submitted yet.</div>
+              <div className="py-12 text-center text-sm text-gray-400">No questions submitted yet.</div>
             ) : (
               <div className="divide-y divide-gray-50">
                 {[...myTickets].sort((a, b) => b.id - a.id).map(t => (
@@ -1576,7 +1612,7 @@ function SupportTab({ tickets, setTickets, user, activeRole }) {
             </div>
           </div>
           {allTickets.length === 0 ? (
-            <div className="py-12 text-center text-sm text-gray-400">No tickets yet.</div>
+            <div className="py-12 text-center text-sm text-gray-400">No questions yet.</div>
           ) : (
             <div className="divide-y divide-gray-50">
               {allTickets.map(t => (
@@ -1793,7 +1829,7 @@ export default function App() {
           )}
           {activeTab === 'mentor'   && <MentorTab activeRole={activeRole} user={user} />}
           {activeTab === 'forms'    && <FormsTab />}
-          {activeTab === 'research' && <ResearchTab activeRole={activeRole} documents={documents} setDocuments={setDocuments} />}
+          {activeTab === 'research' && <ResearchTab activeRole={activeRole} user={user} documents={documents} setDocuments={setDocuments} />}
           {activeTab === 'support'  && <SupportTab tickets={tickets} setTickets={setTickets} user={user} activeRole={activeRole} />}
           {activeTab === 'roster'   && activeRole === 'admin' && <RosterTab attendanceLogs={attendanceLogs} />}
         </div>
