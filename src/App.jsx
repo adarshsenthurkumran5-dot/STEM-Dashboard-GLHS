@@ -646,58 +646,197 @@ function Modal({ title, onClose, children, wide = false }) {
 }
 
 /* ================================================================
+   PDF GENERATOR  (text content → valid PDF blob, no library needed)
+   ================================================================ */
+
+function createPdfBlob(rawText) {
+  // Sanitize to printable ASCII — Courier Type1 font has no Unicode support
+  const text = rawText
+    .replace(/[━─═]/g, '-')
+    .replace(/[✓✔☑]/g, '[x]')
+    .replace(/☐/g, '[ ]')
+    .replace(/[""«»]/g, '"')
+    .replace(/['']/g, "'")
+    .replace(/[–—]/g, '-')
+    .replace(/…/g, '...')
+    .replace(/[^\x09\x0A\x0D\x20-\x7E]/g, '?')
+
+  const PW = 612, PH = 792, MX = 54, MY = 54
+  const FS = 9, LH = 13
+  const maxChars = 94  // chars per line at Courier 9pt inside margins
+
+  // Word-wrap + split into pages
+  const wrapped = []
+  for (const raw of text.split('\n')) {
+    if (raw.length <= maxChars) { wrapped.push(raw); continue }
+    for (let i = 0; i < raw.length; i += maxChars) wrapped.push(raw.slice(i, i + maxChars))
+  }
+  const lpp = Math.floor((PH - MY * 2) / LH)
+  const pages = []
+  for (let i = 0; i < wrapped.length; i += lpp) pages.push(wrapped.slice(i, i + lpp))
+  if (!pages.length) pages.push([])
+
+  const enc = new TextEncoder()
+  const bufs = []
+  let pos = 0
+  const off = {}
+
+  const emit = (s) => {
+    const b = enc.encode(s)
+    bufs.push(b)
+    pos += b.length
+  }
+
+  emit('%PDF-1.4\n')
+
+  // Obj 1 — Catalog
+  off[1] = pos
+  emit('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n')
+
+  // Obj 2 — Pages
+  const nP = pages.length
+  const fontN = 3 + nP * 2
+  off[2] = pos
+  emit(`2 0 obj\n<< /Type /Pages /Kids [${pages.map((_, i) => `${3 + i * 2} 0 R`).join(' ')}] /Count ${nP} >>\nendobj\n`)
+
+  for (let p = 0; p < nP; p++) {
+    const pN = 3 + p * 2, cN = 4 + p * 2
+
+    // Content stream: one Tm+Tj per line (absolute positioning)
+    const sl = ['BT', `/F1 ${FS} Tf`]
+    pages[p].forEach((line, li) => {
+      const y = PH - MY - (li + 1) * LH
+      const esc = line.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)')
+      sl.push(`1 0 0 1 ${MX} ${y} Tm (${esc}) Tj`)
+    })
+    sl.push('ET')
+    const stream = sl.join('\n')
+    const streamLen = enc.encode(stream).length + 1  // +1 for trailing \n
+
+    // Page object
+    off[pN] = pos
+    emit(`${pN} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PW} ${PH}] /Contents ${cN} 0 R /Resources << /Font << /F1 ${fontN} 0 R >> >> >>\nendobj\n`)
+
+    // Content stream object
+    off[cN] = pos
+    emit(`${cN} 0 obj\n<< /Length ${streamLen} >>\nstream\n`)
+    emit(stream + '\n')
+    emit('endstream\nendobj\n')
+  }
+
+  // Font object — Courier is a standard PDF Type1 font, no embedding needed
+  off[fontN] = pos
+  emit(`${fontN} 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>\nendobj\n`)
+
+  // Cross-reference table (each entry must be exactly 20 bytes: 10+1+5+1+1+\r\n)
+  const xrefPos = pos
+  const totalN = fontN + 1
+  emit(`xref\n0 ${totalN}\n`)
+  emit(`0000000000 65535 f\r\n`)
+  for (let i = 1; i < totalN; i++) {
+    emit(`${String(off[i]).padStart(10, '0')} 00000 n\r\n`)
+  }
+
+  emit(`trailer\n<< /Size ${totalN} /Root 1 0 R >>\nstartxref\n${xrefPos}\n%%EOF\n`)
+
+  const total = bufs.reduce((s, b) => s + b.length, 0)
+  const result = new Uint8Array(total)
+  let cursor = 0
+  for (const b of bufs) { result.set(b, cursor); cursor += b.length }
+
+  return new Blob([result], { type: 'application/pdf' })
+}
+
+/* ================================================================
    DOCUMENT VIEWER MODAL
    ================================================================ */
 
 function DocViewerModal({ doc, onClose }) {
+  const [pdfUrl, setPdfUrl] = useState(null)
   const content = MOCK_DOC_PREVIEWS[doc.file]
 
-  const handleDownload = () => {
+  useEffect(() => {
+    let url
     if (doc.fileObj) {
+      url = URL.createObjectURL(doc.fileObj)
+    } else if (content) {
+      url = URL.createObjectURL(createPdfBlob(content))
+    }
+    if (url) setPdfUrl(url)
+    return () => { if (url) URL.revokeObjectURL(url) }
+  }, [])  // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleDownload = () => {
+    if (pdfUrl) {
+      const a = Object.assign(document.createElement('a'), { href: pdfUrl, download: doc.file })
+      document.body.appendChild(a); a.click(); document.body.removeChild(a)
+    } else if (doc.fileObj) {
       const url = URL.createObjectURL(doc.fileObj)
       const a = Object.assign(document.createElement('a'), { href: url, download: doc.file })
-      document.body.appendChild(a); a.click(); document.body.removeChild(a)
-      URL.revokeObjectURL(url)
-    } else {
-      const blob = new Blob([content ?? `[Preview not available for ${doc.file}]`], { type: 'text/plain;charset=utf-8' })
-      const url  = URL.createObjectURL(blob)
-      const a    = Object.assign(document.createElement('a'), { href: url, download: doc.file })
       document.body.appendChild(a); a.click(); document.body.removeChild(a)
       URL.revokeObjectURL(url)
     }
   }
 
+  const canPreview = !!(doc.fileObj || content)
+
   return (
-    <Modal title={doc.file} onClose={onClose} wide>
-      <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-100">
-        <div className="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center flex-shrink-0">
-          {Ico.file('w-4 h-4 text-gray-500')}
-        </div>
-        <div>
-          <p className="text-xs font-semibold text-black">{doc.type}</p>
-          <p className="text-xs text-gray-400">{doc.date} · {doc.size}</p>
-        </div>
-        <button
-          onClick={handleDownload}
-          className="ml-auto flex items-center gap-1.5 px-3 py-1.5 bg-black text-white rounded-xl text-xs font-semibold hover:bg-gray-800 transition"
-        >
-          {Ico.download('w-3.5 h-3.5')} Download
-        </button>
-      </div>
-      {content ? (
-        <pre className="text-xs text-gray-700 font-mono leading-relaxed whitespace-pre-wrap bg-gray-50 rounded-xl p-4 max-h-96 overflow-y-auto border border-gray-100">
-          {content}
-        </pre>
-      ) : (
-        <div className="bg-gray-50 rounded-xl p-8 text-center border border-gray-100">
-          <div className="w-12 h-12 bg-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-3">
-            {Ico.file('w-6 h-6 text-gray-400')}
+    <div
+      className="fixed inset-0 bg-black/60 backdrop-blur-[2px] flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl flex flex-col animate-scale-in"
+        style={{ height: '90vh' }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-100 flex-shrink-0">
+          <div className="w-8 h-8 bg-gray-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            {Ico.file('w-4 h-4 text-gray-500')}
           </div>
-          <p className="text-sm font-semibold text-black mb-1">Preview unavailable</p>
-          <p className="text-xs text-gray-400">This file was uploaded during the session. Use the Download button to save it.</p>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold text-black truncate">{doc.file}</p>
+            <p className="text-xs text-gray-400">{doc.type} · {doc.date} · {doc.size}</p>
+          </div>
+          {canPreview && (
+            <button
+              onClick={handleDownload}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-black text-white rounded-xl text-xs font-semibold hover:bg-gray-800 transition flex-shrink-0"
+            >
+              {Ico.download('w-3.5 h-3.5')} Download PDF
+            </button>
+          )}
+          <button
+            onClick={onClose}
+            className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-gray-100 transition text-gray-400 hover:text-black flex-shrink-0"
+          >
+            {Ico.x('w-4 h-4')}
+          </button>
         </div>
-      )}
-    </Modal>
+
+        {/* PDF viewer area */}
+        <div className="flex-1 min-h-0 bg-gray-200 rounded-b-2xl overflow-hidden">
+          {pdfUrl ? (
+            <iframe
+              src={pdfUrl}
+              className="w-full h-full border-0"
+              title={doc.file}
+            />
+          ) : canPreview ? (
+            <div className="w-full h-full flex items-center justify-center text-gray-400 gap-2">
+              <Spinner /> <span className="text-sm">Generating PDF…</span>
+            </div>
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-gray-400 px-6 text-center">
+              {Ico.file('w-10 h-10')}
+              <p className="text-sm font-semibold text-black">Preview unavailable</p>
+              <p className="text-xs max-w-xs">This file was uploaded during the session and cannot be previewed here. Re-upload to view.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   )
 }
 
