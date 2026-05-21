@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "WebFetch(domain:stem-s3-2025.s3.us-west-1.amazonaws.com)"
+    ]
+  }
+}
