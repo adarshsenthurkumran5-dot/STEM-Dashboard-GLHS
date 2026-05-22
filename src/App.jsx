@@ -305,6 +305,7 @@ SRC Member:     _________________________  Date: ___________`,
 const ISEF_FORMS = [
   {
     id: 'f1', tag: 'Form 1', title: 'Adult Sponsor / Research Plan Checklist',
+    pdfSrc: '/pdfs/1-Checklist-for-Adult-Sponsor.pdf',
     what: 'Required for all projects. Completed by the Adult Sponsor certifying they reviewed the research plan, all safety precautions are in place, and the student received adequate supervision before experimentation began.',
     how: [
       'Have your Adult Sponsor (not you) fill out and sign this form',
@@ -316,6 +317,7 @@ const ISEF_FORMS = [
   },
   {
     id: 'f1a', tag: 'Form 1A', title: 'Student Checklist & Research Plan',
+    pdfSrc: '/pdfs/1A-Student-Checklist-Research-Plan-Instructions.pdf',
     what: 'Required for all projects. A structured 700-word research plan written by the student covering the research question, hypothesis, experimental design, variables, materials, procedures, and planned data analysis. Must be reviewed before experimentation begins.',
     how: [
       'Write your research question and hypothesis clearly in the opening section',
@@ -329,6 +331,7 @@ const ISEF_FORMS = [
   },
   {
     id: 'f1b', tag: 'Form 1B', title: 'Continuation / Research Continuation Project',
+    pdfSrc: '/pdfs/1B-Approval-Form.pdf',
     what: 'Required only if your project continues research from a previous ISEF-affiliated competition year. Documents what is new this year versus carried forward from prior work.',
     how: [
       "Attach your previous year's finalized, approved research plan",
@@ -340,6 +343,7 @@ const ISEF_FORMS = [
   },
   {
     id: 'f2', tag: 'Form 2', title: 'Qualified Scientist',
+    pdfSrc: '/pdfs/2-Qualified-Scientist.pdf',
     what: 'Required when research is conducted at a university, hospital, government lab, or any regulated research institution with a supervising professional scientist.',
     how: [
       'Identify the supervising Qualified Scientist (PhD, MD, DVM, or equivalent)',
@@ -351,6 +355,7 @@ const ISEF_FORMS = [
   },
   {
     id: 'f3', tag: 'Form 3', title: 'Risk Assessment',
+    pdfSrc: '/pdfs/3-Risk-Assessment.pdf',
     what: 'Required for projects involving any potentially hazardous substances or conditions — chemicals, high voltage, sharp instruments, extreme temperatures, lasers, or biological materials.',
     how: [
       'List every chemical, biological agent, radioactive material, or physical hazard',
@@ -362,6 +367,8 @@ const ISEF_FORMS = [
   },
   {
     id: 'f4', tag: 'Form 4', title: 'Human Participants',
+    pdfSrc: '/pdfs/4-Human-Participants.pdf',
+    sampleConsentPdf: '/pdfs/4-Sample-Informed-Consent.pdf',
     what: 'Required whenever your project involves human subjects — surveys, interviews, cognitive tasks, behavioral observations, physiological measurements, or use of existing personal or medical data.',
     how: [
       'Describe all procedures involving human participants in plain language',
@@ -374,6 +381,7 @@ const ISEF_FORMS = [
   },
   {
     id: 'f5a', tag: 'Form 5A', title: 'Vertebrate Animals — Non-Regulated Site',
+    pdfSrc: '/pdfs/5A-Vertebrate-Animal.pdf',
     what: 'Required for projects using vertebrate animals conducted at a home, school, or field site that is NOT a regulated research institution.',
     how: [
       'Identify the species, number of animals, and their source',
@@ -385,6 +393,7 @@ const ISEF_FORMS = [
   },
   {
     id: 'f5b', tag: 'Form 5B', title: 'Vertebrate Animals — Regulated Research Institution',
+    pdfSrc: '/pdfs/5B-Vertebrate-Animal.pdf',
     what: 'Required when vertebrate animal research is conducted at a university, hospital, or government laboratory covered by the Animal Welfare Act. Requires IACUC approval documentation.',
     how: [
       'Attach a copy of the institution\'s active IACUC approval',
@@ -395,6 +404,7 @@ const ISEF_FORMS = [
   },
   {
     id: 'f6a', tag: 'Form 6A', title: 'Potentially Hazardous Biological Agents',
+    pdfSrc: '/pdfs/6A-Potentially-Hazardous-Biological-Agents.pdf',
     what: 'Required for any project using microorganisms, recombinant DNA/RNA, prions, or any biological material that could pose a risk to human health or the environment.',
     how: [
       'Identify every biological agent by full scientific name and Biosafety Level',
@@ -405,6 +415,7 @@ const ISEF_FORMS = [
   },
   {
     id: 'f6b', tag: 'Form 6B', title: 'Human and Vertebrate Animal Tissue',
+    pdfSrc: '/pdfs/6B-Human-Vertebrate-Animal-Tissue.pdf',
     what: 'Required when your project uses human tissue, blood, body fluids, or primary cell cultures derived from humans or vertebrate animals — including commercially purchased or archived samples.',
     how: [
       'Specify the exact tissue type, source, and preservation state',
@@ -414,17 +425,20 @@ const ISEF_FORMS = [
     ],
   },
   {
-    id: 'f7', tag: 'Form 7', title: 'Display and Safety Acknowledgment',
-    what: 'Required for all ISEF-affiliated projects at the display and judging stage. Certifies your display complies with ISEF physical size regulations, electrical requirements, and prohibited-item rules.',
+    id: 'f7', tag: 'Form 7', title: 'Continuation Projects',
+    pdfSrc: '/pdfs/7-Display-Safety-Acknowledgment.pdf',
+    what: 'Required for Senior Division projects that are direct continuations of prior-year ISEF-affiliated research. Documents the scope of new work added this year versus findings carried forward from the previous project.',
     how: [
-      'Verify backboard meets ISEF maximums: 122 cm wide × 274 cm tall × 61 cm deep',
-      'Confirm no prohibited items (living organisms, open flames, lasers >5 mW)',
-      'If using electricity: confirm all wiring is UL-listed and properly insulated',
-      'Student and parent/guardian must both sign and date the acknowledgment',
+      'Summarize the prior year\'s project, findings, and conclusions in the designated section',
+      'List every new hypothesis, procedure, dataset, and analysis introduced this year',
+      'Clearly distinguish new experimental work from prior-year results',
+      'Do NOT present prior-year data as new — this is a disqualifying violation',
+      'Have your Adult Sponsor and SRC member review and sign before submitting',
     ],
   },
   {
     id: 'ncsef', tag: 'NCSEF', title: 'Parent / Guardian Release Form',
+    pdfSrc: '/pdfs/NCSEF-Parent-Release-Form-2026.pdf',
     what: 'North Carolina Science and Engineering Fair specific form. Required for all student participants. Parent/guardian grants permission for competition and acknowledges liability limitations.',
     how: [
       'Print and complete the form — electronic signatures not accepted at NCSEF',
@@ -1321,30 +1335,12 @@ function FormsTab() {
 
   const reset = () => { setWizardStarted(false); setCurrentQ(0); setAnswers({}); setWizardDone(false) }
 
-  const handleDownload = (form) => {
-    const content = [
-      `${form.tag} -- ${form.title}`,
-      `Society for Science - ISEF 2025-2026`,
-      '-'.repeat(48),
-      '',
-      'DESCRIPTION',
-      form.what,
-      '',
-      'HOW TO COMPLETE',
-      ...form.how.map((s, i) => `  ${i + 1}. ${s}`),
-      '',
-      '-'.repeat(48),
-      'Official forms available at: societyforscience.org/isef',
-    ].join('\n')
-    const blob = createPdfBlob(content)
-    const url  = URL.createObjectURL(blob)
-    const a    = Object.assign(document.createElement('a'), {
-      href: url,
-      download: `ISEF_${form.tag.replace(/[\s/]+/g, '_')}.pdf`,
-    })
+  const handleDownload = (form, src) => {
+    const href = src || form.pdfSrc
+    const filename = href ? href.split('/').pop() : `ISEF_${form.tag.replace(/[\s/]+/g, '_')}.pdf`
+    const a = Object.assign(document.createElement('a'), { href, download: filename })
     document.body.appendChild(a); a.click(); document.body.removeChild(a)
-    URL.revokeObjectURL(url)
-    setToast({ message: `${form.tag} downloaded as PDF.`, type: 'success' })
+    setToast({ message: `${form.tag} downloaded.`, type: 'success' })
   }
 
   return (
@@ -1463,6 +1459,12 @@ function FormsTab() {
                       className="inline-flex items-center gap-1 text-xs font-semibold text-black px-2.5 py-1.5 border border-gray-200 rounded-xl hover:bg-gray-100 transition cursor-pointer">
                       {Ico.download('w-3.5 h-3.5')} Download
                     </span>
+                    {form.sampleConsentPdf && (
+                      <span onClick={e => { e.stopPropagation(); handleDownload(form, form.sampleConsentPdf) }}
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-gray-600 px-2.5 py-1.5 border border-gray-200 rounded-xl hover:bg-gray-100 transition cursor-pointer">
+                        {Ico.download('w-3.5 h-3.5')} Sample Consent
+                      </span>
+                    )}
                     {Ico.chevronDown(`w-4 h-4 text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`)}
                   </div>
                 </button>
