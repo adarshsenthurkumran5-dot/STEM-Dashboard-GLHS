@@ -3,7 +3,18 @@
     "allow": [
       "Bash(npm install *)",
       "Bash(npm run *)",
-      "WebFetch(domain:stem-s3-2025.s3.us-west-1.amazonaws.com)"
+      "WebFetch(domain:stem-s3-2025.s3.us-west-1.amazonaws.com)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(node node_modules/vite/bin/vite.js build)",
+      "Bash(Get-ChildItem \"C:\\\\Users\\\\adars\\\\Downloads\\\\Sample Forms\")",
+      "Bash(Select-Object Name, Length)",
+      "Bash(dir C:\\\\Users\\\\adars\\\\.vscode\\\\stemrc)",
+      "WebSearch",
+      "WebFetch(domain:www.societyforscience.org)",
+      "WebFetch(domain:ncsef.org)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\adars\\\\.vscode\\\\stemrc\\\\dist\\\\pdfs\" | Select-Object Name, @{N='KB';E={[math]::Round\\($_.Length/1KB,1\\)}})"
     ]
   }
 }
